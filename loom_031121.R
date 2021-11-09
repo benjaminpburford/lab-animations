@@ -11,12 +11,12 @@ fps = 60 # frames per second
 start_dist = (tank_diam/2)+(tank_diam/10) # stimuli starts beyond edge of arena by 10 cm (radius)
 
 # stimuli approach angle
-dot_angle <- tibble(angle_rel_fish = seq(-135,180,45)) %>% # starting angles relative to fish head
+dot_angle <- tibble(angle_rel_fish = c(-90,90)) %>% # starting angles relative to fish head
   mutate(rad_rel_fish = angle_rel_fish*(pi/180)) # covert to radians
 
 # stimuli size
 dot_size = tibble(dot_size_rel_bl = c(0.1,0.25,0.5,1,2,4)) %>% # size relative to body length
-  mutate(dot_size_cm = fish_len*dot_size_rel_bl) # in cm
+  mutate(dot_size_cm = (fish_len*dot_size_rel_bl)/2) # in cm, needs to be provided as a radius (so /2)
 
 # stimuli speed
 dot_speed = c(8,4,1) # speeds in bodylengths per second
@@ -39,7 +39,9 @@ approach %>%
   ungroup() %>%
   ggplot(aes(dot_start_x,dot_start_y)) +
   geom_point() +
-  geom_point(aes(fish_head_x,fish_head_y),col="red")
+  geom_point(aes(fish_head_x,fish_head_y),col="red") +
+  xlim(c(-start_dist,start_dist)) +
+  ylim(c(-start_dist,start_dist))
 
 # continue building dataframe
 approach <- approach %>%
@@ -80,7 +82,7 @@ write.csv(loom_031121_meta,"loom_031121_meta.csv",row.names = F)
 
 # select relevant columns and write data
 loom_031121_matrix <- approach %>%
-  select(-c(angle_rel_fish,dot_size_cm,dot_speed_blps,second)) %>%
+  select(-c(angle_rel_fish,dot_speed_blps)) %>%
   arrange(condition,frame)
 
 write.csv(loom_031121_matrix,"loom_031121_matrix.csv",row.names = F)
