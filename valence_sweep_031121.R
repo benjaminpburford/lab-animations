@@ -40,6 +40,7 @@ approach %>%
   ungroup() %>%
   ggplot(aes(dot_start_x,dot_start_y)) +
   geom_point() +
+  geom_vline(xintercept = sweep_dist,lty=2) +
   geom_point(aes(fish_head_x,fish_head_y),col="red") +
   xlim(c(-start_dist,start_dist)) +
   ylim(c(-start_dist,start_dist))
