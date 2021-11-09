@@ -17,7 +17,7 @@ dot_angle <- tibble(angle_rel_fish = c(-90,90)) %>% # starting angles relative t
 
 # stimuli size
 dot_size = tibble(dot_size_rel_bl = c(0.1,0.25,0.5,1,2,4)) %>% # size relative to body length
-  mutate(dot_size_cm = fish_len*dot_size_rel_bl) # in cm
+  mutate(dot_size_cm = (fish_len*dot_size_rel_bl)/2) # in cm, needs to be provided as a radius (so /2)
 
 # stimuli speed
 dot_speed = c(8,4,1) # speeds in bodylengths per second
@@ -40,7 +40,9 @@ approach %>%
   ungroup() %>%
   ggplot(aes(dot_start_x,dot_start_y)) +
   geom_point() +
-  geom_point(aes(fish_head_x,fish_head_y),col="red")
+  geom_point(aes(fish_head_x,fish_head_y),col="red") +
+  xlim(c(-start_dist,start_dist)) +
+  ylim(c(-start_dist,start_dist))
 
 # continue building dataframe
 approach <- approach %>%
@@ -81,7 +83,7 @@ write.csv(valence_sweep_031121_meta,"valence_sweep_031121_meta.csv",row.names = 
 
 # select relevant columns and write data
 valence_sweep_031121_matrix <- approach %>%
-  select(-c(angle_rel_fish,dot_size_cm,dot_speed_blps,second)) %>%
+  select(-c(angle_rel_fish,dot_speed_blps)) %>%
   arrange(condition,frame)
 
 write.csv(valence_sweep_031121_matrix,"valence_sweep_031121_matrix.csv",row.names = F)
