@@ -8,6 +8,7 @@ valence_sweep_181121_meta <- expand.grid(start_dist_cm = 60, # specify starting 
                     angle_rel_fish = c(-90,90), # dot approach angle (from left or right essentially)
                     dot_rad_cm = c(0.2,0.5,1,2,4,8)) %>% # dot radius in cm
   mutate(start_dist_cm = start_dist_cm + dot_rad_cm, # add dot radius to starting position so that larger dots dont appear closer
+         sweep_dist_cm = sweep_dist_cm + dot_rad_cm, # add dot radius to sweep position so that larger dots dont appear closer
          condition = str_c("valence","_",angle_rel_fish,"_",dot_speed_cms,"_",dot_rad_cm), # condition specs
          condition_num = as.integer(as.character(factor(condition,labels = seq(1,length(unique(condition)),1))))) %>% # condition dummy number
   relocate(condition,condition_num) %>%
