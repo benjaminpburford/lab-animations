@@ -6,7 +6,8 @@ loom_181121_meta <- expand.grid(start_dist_cm = 60, # specify starting distance 
                                 dot_speed_cms = c(32,16,4), # dot speed in cm/s
                                 angle_rel_fish = c(-90,90), # dot approach angle (from left or right essentially)
                                 dot_rad_cm = c(0.2,0.5,1,2,4,8)) %>% # dot radius in cm
-  mutate(condition = str_c("loom","_",angle_rel_fish,"_",dot_speed_cms,"_",dot_rad_cm), # condition specs
+  mutate(start_dist_cm = start_dist_cm + dot_rad_cm, # add dot radius to starting position so that larger dots dont appear closer
+         condition = str_c("loom","_",angle_rel_fish,"_",dot_speed_cms,"_",dot_rad_cm), # condition specs
          condition_num = as.integer(as.character(factor(condition,labels = seq(1,length(unique(condition)),1))))) %>% # condition dummy number
   relocate(condition,condition_num) %>%
   arrange(condition_num)
