@@ -1,7 +1,7 @@
 library(tidyverse)
 
 # build metadata -------------------------------------------------------------------
-# condition, start_dist_cm, sweep_dist_cm, dot_speed_cms, angle_rel_fish, dot_rad_cm
+# contains: condition, start_dist_cm, sweep_dist_cm, dot_speed_cms, angle_rel_fish, dot_rad_cm
 valence_sweep_181121_meta <- expand.grid(start_dist_cm = 60, # specify starting distance (same for all)
                     sweep_dist_cm = 10, # sweep distance, how far in front of fish stimulus passes (same for all)
                     dot_speed_cms = c(32,16,4), # dot speed in cm/s
